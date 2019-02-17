@@ -25,12 +25,18 @@ def help_msg():
 
 
 def parse_hosts(inp):
+    """
+    This function will strip the IP addresses out of the user input and return them as an array
+    """
     arr = re.search('\[(.*)\]', inp).group(0)[1:-1]
     hosts = arr.split(",")
     return hosts
 
 
 def parse_commands(inp):
+    """
+    This function pulls the commands from user input, returns them as a single string
+    """
     return re.search('"(.*)"', inp).group(0)[1:-1]
 
 
@@ -45,6 +51,9 @@ def task_help():
 
 
 def send_it(hosts, commands, srv):
+    """
+    send hosts/commands as a post request to the server endpoint
+    """
     print("launching: " + commands)
     print("to: " + str(hosts))
     u = srv + "/api/commander/push" 
@@ -58,6 +67,9 @@ def send_it(hosts, commands, srv):
     return
 
 def new_task_loop(srv):
+    """
+    Loop and take user input to create/send new tasks
+    """
     hosts = ""
     commands = ""
     while True:
@@ -98,6 +110,9 @@ def new_task_loop(srv):
 
 
 def new_task(inp):
+    """
+    Create a new task given the shortcut user input
+    """
     # t: 8.8.8.8 8.8.8.8 8.8.8.8: echo hi
     try:
         _, ips, command = inp.split(":", 2)
@@ -111,6 +126,9 @@ def new_task(inp):
         print("Error in format: 't: host[ hosts...]: commands'")
 
 def big_loop(srv):
+    """
+    Loop and take user input to show targets, create tasks, etc
+    """
     while True:
         inp = input('Commander> ')
         if inp == "help":
